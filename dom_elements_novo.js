@@ -296,44 +296,45 @@ async function delete_uspliter() {
     saveSelectOptions('uspliters', selectElement);  
 }  
 
-function saveSelectOptions(selectId, selectElement) {  
-    const options = Array.from(selectElement.options).map(option => option.value);  
-    console.log(`Saving ${selectId}:`, options);  
-    localStorage.setItem(selectId, JSON.stringify(options));  
-}  
+const loadedIds = ['bspliters', 'spliceboxes', 'cables', 'uspliters'];
 
-function loadSelectOptions(selectId, selectElement) {  
-    const options = JSON.parse(localStorage.getItem(selectId));  
-    console.log(`Loading ${selectId}:`, options);  
-    if (options) {  
-        selectElement.innerHTML = ''; // Limpar as opções existentes  
-        options.forEach(value => {  
-            const option = document.createElement('option');  
-            option.value = value;  
-            option.text = value;  
-            selectElement.add(option);  
-        });  
-    }  
-}  
+function loadSelectOptions(selectId, selectElement) {
+    const options = JSON.parse(localStorage.getItem(selectId));
+    console.log(`Loading ${selectId}:`, options);
+    
+    // Verificar se as opções já foram carregadas manualmente
+    if (!loadedIds.includes(selectId)) {
+        selectElement.innerHTML = ''; // Limpar as opções existentes
+        options.forEach(value => {
+            const option = document.createElement('option');
+            option.value = value;
+            option.text = value;
+            selectElement.add(option);
+        });
+        
+        // Marcar como carregado após inserir as opções
+        loadedIds.push(selectId);
+    }
+}
 
-// Carregar opções ao iniciar a página  
-window.onload = () => {  
-    loadSelectOptions('bspliters', document.getElementById('bspliters'));  
-    loadSelectOptions('spliceboxes', document.getElementById('spliceboxes'));  
-    loadSelectOptions('cables', document.getElementById('cables'));  
-    loadSelectOptions('uspliters', document.getElementById('uspliters'));  
-};  
+// Carregar opções ao iniciar a página
+window.onload = () => {
+    loadedIds.forEach(id => {
+        loadSelectOptions(id, document.getElementById(id));
+    });
+};
 
-// Expor funções globais  
-window.delete_bspliter = delete_bspliter;  
-window.delete_splicebox = delete_splicebox;  
-window.delete_cable = delete_cable;  
+// Expor funções globais
+window.delete_bspliter = delete_bspliter;
+window.delete_splicebox = delete_splicebox;
+window.delete_cable = delete_cable;
 window.delete_uspliter = delete_uspliter;
 window.new_splicebox = new_splicebox;
 window.new_cable = new_cable;
 window.new_uspliter = new_uspliter;
 window.new_bsplite = new_bspliter;
 window.read_files = read_files;
-window.handle_limit_click = handle_limit_click
-window.new_session = handle_new_session_click
+window.handle_limit_click = handle_limit_click;
+window.new_session = handle_new_session_click;
+
 export { get_limit, get_mode, set_mode, show_download_button, hide_download_button, get_selected, read_files, fill_selects };
