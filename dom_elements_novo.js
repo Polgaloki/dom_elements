@@ -328,7 +328,7 @@ window.onload = () => {
 window.delete_bspliter = delete_bspliter;  
 window.delete_splicebox = delete_splicebox;  
 window.delete_cable = delete_cable;  
-window.delete_uspliter = delete_uspliter; 
+window.delete_uspliter = delete_uspliter;
 window.new_splicebox = new_splicebox;
 window.new_cable = new_cable;
 window.new_uspliter = new_uspliter;
